@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function handler(request: any, response: any) {
+export default async function handler(request: any, response: any) {
   const METHOD = request.method;
   if (METHOD === "GET") {
     const pokemons = await prisma.pokemon.findMany({
       orderBy: [{ order: "asc" }],
     });
+
     return response.status(200).json({ ok: true, data: pokemons });
   }
   if (METHOD === "POST") {
@@ -19,14 +20,17 @@ export async function handler(request: any, response: any) {
 }
 
 async function createPokemon(req: any, res: any) {
-  const { name } = JSON.parse(req.body);
+  const { name } = req.body;
+
   try {
     const foundPokemon = await prisma.pokemon.findFirst({
       where: { name },
     });
-    console.log({ foundPokemon });
+
     if (!foundPokemon) {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`
+      );
       if (response.ok) {
         const pokemon = await response.json();
         const newPokemon = await prisma.pokemon.create({
@@ -36,13 +40,24 @@ async function createPokemon(req: any, res: any) {
             imageUrl: pokemon.sprites.front_default,
           },
         });
-        return res.status(201).json({ ok: true, data: newPokemon });
+        return res.status(201).json({
+          ok: true,
+          data: newPokemon,
+          message: `atrapaste con exito a ${name}`,
+        });
       } else {
         return res
           .status(400)
           .json({ ok: false, message: "Ese pokemon no existe" });
       }
+    } else {
+      res
+        .status(400)
+        .json({ ok: false, message: `${name} ya ha sido atrapado` });
     }
     return res.status(200).json({ ok: true });
-  } catch {}
+  } catch (error) {
+    console.log("Request error", error);
+    res.status(500).json({ error: "error creating question", success: false });
+  }
 }

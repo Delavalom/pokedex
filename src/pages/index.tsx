@@ -17,29 +17,29 @@ const Home: NextPage = () => {
 
     setLoading("catching...");
 
-    const res = await fetch("/api/pokemon", {
+    const response = await fetch("/api/pokemon", {
       method: "POST",
-      body: JSON.stringify({
-        name: pokemonName,
-      }),
-      "Content-Type": "application/json",
+      body: JSON.stringify({ name: pokemonName }),
+      headers: { "Content-Type": "application/json" },
     });
 
-    if (res.ok) {
-      const resJSON = await res.json();
-      setLoading("Fetching...");
+    const resJSON = await response.json();
+    if (response.ok) {
       await fetchPokemons();
       console.log({ resJSON });
+    } else {
+      await fetchPokemons()
     }
   };
 
   const fetchPokemons = async () => {
+    setLoading("Fetching...");
     const response = await fetch("/api/pokemon");
 
     if (response.ok) {
       const { data } = await response.json();
-      setPokemons(data);
       setLoading("");
+      setPokemons(data);
     } else {
       console.log("hubo un error al obtener los pokemons");
     }
@@ -47,7 +47,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     fetchPokemons();
-  }, [pokemons]);
+  }, []);
 
   return (
     <>
@@ -65,14 +65,14 @@ const Home: NextPage = () => {
             ya se han atrapado {pokemons.lenght}
           </span>
           <input
-            onChange={() => handleChange}
+            onChange={handleChange}
+            value={pokemonName}
             className="rounded-full bg-[#532c89] py-2 px-4 text-center text-5xl font-light tracking-tight text-white"
           />
         </div>
-        <h1>{pokemonName}</h1>
         <button
           onClick={catchPokemon}
-          className="w-80 flex items-center justify-center rounded-full bg-[#a768fe] px-5 py-2 text-2xl text-white hover:bg-[#532c89]"
+          className="flex w-80 items-center justify-center rounded-full bg-[#a768fe] px-5 py-2 text-2xl text-white hover:bg-[#532c89]"
         >
           {" "}
           {loading ? (
@@ -83,7 +83,7 @@ const Home: NextPage = () => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="animate-spin h-10 w-10"
+                className="h-10 w-10 animate-spin"
               >
                 <path
                   strokeLinecap="round"
@@ -101,7 +101,7 @@ const Home: NextPage = () => {
           {pokemons.map((pokemon: any) => (
             <div
               key={pokemon.id}
-              className="mt-4 flex flex-col items-center justify-center rounded-lg bg-white shadow-lg shadow-white hover:scale-150 hover:cursor-pointer"
+              className="mt-4 flex flex-col items-center justify-center rounded-lg bg-white shadow-lg shadow-white hover:scale-105 hover:cursor-pointer"
             >
               <Image
                 src={pokemon.imageUrl}

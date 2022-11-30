@@ -16,6 +16,5 @@ model Pokemon {
   name    String  @unique
   order   Int
   imageUrl String?
+  userName String?
 }
-
-// pscale_pw_5w6XXK7pyudl2XynAyC0wpZn64MQBVONSPjc8w9IyJe
