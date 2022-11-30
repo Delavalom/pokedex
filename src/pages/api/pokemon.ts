@@ -43,17 +43,17 @@ async function createPokemon(req: any, res: any) {
         return res.status(201).json({
           ok: true,
           data: newPokemon,
-          message: `atrapaste con exito a ${name}`,
+          message: `You successfully caught ${name}`,
         });
       } else {
         return res
           .status(400)
-          .json({ ok: false, message: "Ese pokemon no existe" });
+          .json({ ok: false, message: "That pokemon doesn't exist" });
       }
     } else {
       res
         .status(400)
-        .json({ ok: false, message: `${name} ya ha sido atrapado` });
+        .json({ ok: false, message: `${name} has been caught` });
     }
     return res.status(200).json({ ok: true });
   } catch (error) {

@@ -41,7 +41,7 @@ const Home: NextPage = () => {
       setLoading("");
       setPokemons(data);
     } else {
-      console.log("hubo un error al obtener los pokemons");
+      console.log("Error fetch the data");
     }
   };
 
@@ -59,10 +59,10 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="container flex flex-col items-center gap-12 px-4 py-8 ">
           <h1 className="text-5xl font-black text-white">
-            Que pokemon deseas atrapar?
+            Which Pokemon would you like to catch?
           </h1>
           <span className="text-gray-600">
-            ya se han atrapado {pokemons.lenght}
+            {pokemons.lenght} have been caught
           </span>
           <input
             onChange={handleChange}
