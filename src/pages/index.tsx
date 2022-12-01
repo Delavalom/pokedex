@@ -61,18 +61,18 @@ const Home: NextPage = () => {
           <h1 className="text-5xl font-black text-white">
             Which Pokemon would you like to catch?
           </h1>
-          <span className="text-gray-600">
+          <span className="text-gray-300">
             {pokemons.lenght} have been caught
           </span>
           <input
             onChange={handleChange}
             value={pokemonName}
-            className="rounded-full bg-[#532c89] py-2 px-4 text-center text-5xl font-light tracking-tight text-white"
+            className="rounded-full bg-[#532c89] py-2 px-4 text-center text-xl md:text-5xl font-light tracking-tight text-white"
           />
         </div>
         <button
           onClick={catchPokemon}
-          className="flex w-80 items-center justify-center rounded-full bg-[#a768fe] px-5 py-2 text-2xl text-white hover:bg-[#532c89]"
+          className="flex w-40 md:w-80 items-center justify-center rounded-full bg-[#a768fe] px-5 py-2 text-sm md:text-2xl text-white hover:bg-[#532c89]"
         >
           {" "}
           {loading ? (
@@ -83,7 +83,7 @@ const Home: NextPage = () => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="h-10 w-10 animate-spin"
+                className="h-5 w-5 md:h-10 md:w-10 animate-spin"
               >
                 <path
                   strokeLinecap="round"
@@ -97,7 +97,7 @@ const Home: NextPage = () => {
             "Atrapar!"
           )}
         </button>
-        <div className="mt-6 flex max-w-[70rem] flex-wrap gap-4">
+        <div className="mt-6 flex w-full px-10 md:max-w-[70rem] flex-wrap gap-4">
           {pokemons.map((pokemon: any) => (
             <div
               key={pokemon.id}
@@ -106,8 +106,8 @@ const Home: NextPage = () => {
               <Image
                 src={pokemon.imageUrl}
                 alt={pokemon.name}
-                width={200}
-                height={200}
+                width={150}
+                height={150}
               />
               <p className="font-bold">{pokemon.name.toUpperCase()}</p>
             </div>
