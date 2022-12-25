@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { PrismaClient } from "@prisma/client";
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const prisma = new PrismaClient();
 
-export default async function handler(request: any, response: any) {
+export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   const METHOD = request.method;
   if (METHOD === "GET") {
     const pokemons = await prisma.pokemon.findMany({
@@ -19,7 +17,7 @@ export default async function handler(request: any, response: any) {
   }
 }
 
-async function createPokemon(req: any, res: any) {
+async function createPokemon(req: NextApiRequest, res: NextApiResponse) {
   const { name } = req.body;
 
   try {
